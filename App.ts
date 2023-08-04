@@ -1,4 +1,9 @@
 import { useEffect, useState } from 'react';
+import A from './A';
+import B from './B';
+import C from './C';
+import D from './D';
+import E from './E';
 
 function App() {
 
@@ -7,12 +12,14 @@ function App() {
 
   const pickItem = async() => {
     try {
-      if (!item.d) {
-        setSwap(Math.floor(Math.random()*4)); //For #1|#2++(3 only & w/o'All of the Above')
-      } else if (item.free&&item.d) {
-        setSwap(Math.floor(Math.random()*(7-4+1)+4)); //For #2+(4 only & w/o'All of the Above')
+      if (item.c&&(item.c=="all of the above.")) {
+        setSwap(Math.floor(Math.random()*2)); //For #c w'all of the above'
+      } else if (item.d&&(item.d!=="all of the above.")) {
+        setSwap(Math.floor(Math.random()*(7-4+1)+4)); //For #d w/o'all of the above.'
+      } else if (item.e&&(item.e!=="all of the above.")) {
+        setSwap(Math.floor(Math.random()*7));; //For #d w'all of the above.'
       } else {
-        setSwap(Math.floor(Math.random()*7)); //For #3(2|3|4|5 & w'All of the Above')
+        setSwap(Math.floor(Math.random()*4)); //For #all(2|3|4)
       }
     } catch (err) {
     console.log(err);
@@ -25,26 +32,33 @@ function App() {
 
   return (
     <>
-	<ul className='list-none flex justify-end items-start flex-1 flex-col text-start'>
-            <li className='font-bold'>{item.title&&item.title}</li>
-            {!item.free&&<>
-            {item.a&&((swap==1 || (item.e && swap==4))?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:(((item.d && swap==2) || (item.e && swap==5))?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:((item.e && swap==6)?<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>:<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>)))}
-            {item.b&&((swap==1 || (item.e && swap==4))?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:((item.e && swap==5)?<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>:(((item.e && swap==6) || (item.d && swap==3))?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>)))}
-            {item.c&&(((item.d && swap==2) || (item.e && swap==5))?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:((item.e && swap==4)?<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>:(((item.e && swap==6) || (item.d && swap==3))?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>)))}
-            {item.d&&((item.e && swap==4)?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:((item.e && swap==5)?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:((item.e && swap==6)?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>)))}
-            {item.e&&<li><input type="radio" value="e" name="choice" /> {item.e}{values.choice==item.ans && item.ans=="e" &&"✔️"}</li>}
+	<ul>
+            <li>{item.title&&item.title}</li>
+
+            {item.b&&!item.c&&<>
+            {item.a&&<A item={item} values={values}/>}
+            {item.b&&<B item={item} values={values}/>}
+
+            {item.c&&(!item.d)&&(item.c!=="all of the above.")&&<>
+            {item.a&&(swap==1?<B item={item} values={values}/>:(swap==2?<C item={item} values={values}/>:<A item={item} values={values}/>))}
+            {item.b&&(swap==1?<A item={item} values={values}/>:(swap==3?<C item={item} values={values}/>:<B item={item} values={values}/>))}
+            {item.c&&(swap==2?<A item={item} values={values}/>:(swap==3?<B item={item} values={values}/>:<C item={item} values={values}/>))}
+
+            {item.d&&(item.d!=="all of the above.")&&<>
+            {item.a&&(swap==4?<B item={item} values={values}/>:(swap==5?<C item={item} values={values}/>:(swap==6?<D item={item} values={values}/>:<A item={item} values={values}/>)))}
+            {item.b&&(swap==4?<A item={item} values={values}/>:(swap==5?<D item={item} values={values}/>:(swap==6?<C item={item} values={values}/>:<B item={item} values={values}/>)))}
+            {item.c&&(swap==4?<D item={item} values={values}/>:(swap==5?<A item={item} values={values}/>:(swap==6?<B item={item} values={values}/>:<C item={item} values={values}/>)))}
+            {item.d&&(swap==4?<C item={item} values={values}/>:(swap==5?<B item={item} values={values}/>:(swap==6?<A item={item} values={values}/>:<D item={item} values={values}/>)))}
+            {item.e&&<E item={item} values={values}/>}
+
+            {(item.c=="all of the above."||item.d=="all of the above.")&&<>
+            {item.a&&((swap==1 || (item.e && swap==4))?<B item={item} values={values}/>:(((item.d && swap==2) || (item.e && swap==5))?<C item={item} values={values}/>:((item.e && swap==6)?<D item={item} values={values}/>:<A item={item} values={values}/>)))}
+            {item.b&&((swap==1 || (item.e && swap==4))?<A item={item} values={values}/>:((item.e && swap==5)?<D item={item} values={values}/>:(((item.e && swap==6) || (item.d && swap==3))?<C item={item} values={values}/>:<B item={item} values={values}/>)))}
+            {item.c&&(((item.d && swap==2) || (item.e && swap==5))?<A item={item} values={values}/>:((item.e && swap==4)?<D item={item} values={values}/>:(((item.e && swap==6) || (item.d && swap==3))?<B item={item} values={values}/>:<C item={item} values={values}/>)))}
+            {item.d&&((item.e && swap==4)?<C item={item} values={values}/>:((item.e && swap==5)?<B item={item} values={values}/>:((item.e && swap==6)?<A item={item} values={values}/>:<D item={item} values={values}/>)))}
+            {item.e&&<E item={item} values={values}/>}
             </>}
-            {item.free&&(!item.d)&&<>
-            {item.a&&(swap==1?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:(swap==2?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>))}
-            {item.b&&(swap==1?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:(swap==3?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>))}
-            {item.c&&(swap==2?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:(swap==3?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>))}
-            </>}
-            {item.free&&item.d&&<>
-            {item.a&&(swap==4?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:(swap==5?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:(swap==6?<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>:<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>)))}
-            {item.b&&(swap==4?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:(swap==5?<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>:(swap==6?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>)))}
-            {item.c&&(swap==4?<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>:(swap==5?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:(swap==6?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>)))}
-            {item.d&&(swap==4?<li><input type="radio" value="c" name="choice" /> {item.c}{values.choice==item.ans && item.ans=="c" &&"✔️"}</li>:(swap==5?<li><input type="radio" value="b" name="choice" /> {item.b}{values.choice==item.ans && item.ans=="b" &&"✔️"}</li>:(swap==6?<li><input type="radio" value="a" name="choice" /> {item.a}{values.choice==item.ans && item.ans=="a" &&"✔️"}</li>:<li><input type="radio" value="d" name="choice" /> {item.d}{values.choice==item.ans && item.ans=="d" &&"✔️"}</li>)))}
-            </>}
+
 	</ul>
     </>
   )
