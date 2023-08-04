@@ -15,5 +15,3 @@ The option swapping logic seems to be quite intricate and may be difficult to in
 The initial outcome/demonstration of the above swapping mechanism can be inspected via the link belw:
 
 https://op.calcuis.us
-
-A paper will be drafted for illustrating the mechanism (logic and calculation) behind. Stay tuned!
