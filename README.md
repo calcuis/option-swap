@@ -12,6 +12,6 @@ The code utilizes nested ternary operators and logical conditions to determine t
 
 The option swapping logic seems to be quite intricate and may be difficult to interpret without knowing the specific structure and properties of the "item" object.
 
-The initial outcome/demonstration of the above swapping mechanism can be inspected via the link belw:
+The initial outcome/demonstration of the above swapping mechanism can be inspected via the link below:
 
 https://op.calcuis.us
